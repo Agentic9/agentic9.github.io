@@ -43,9 +43,9 @@ title: AI Automation | Empower People
             margin-top: min(-10vh, -80px);
         }
         .static-part {
-            font-family: 'Unbounded', sans-serif;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             font-size: clamp(2.5rem, 10vw, 6rem);
-            font-weight: 800;
+            font-weight: 300;
             background: linear-gradient(135deg, 
                 #60a5fa 0%, 
                 #8b5cf6 50%, 
@@ -55,14 +55,15 @@ title: AI Automation | Empower People
             background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 0;
-            line-height: 1.1;
             text-align: center;
             width: 100%;
             letter-spacing: 0.05em;
-            text-transform: uppercase;
             padding: 0 0.5rem;
             position: relative;
             display: inline-block;
+        }
+        .static-part .capital {
+            font-weight: 400;
         }
         .title-container {
             position: relative;
@@ -125,16 +126,72 @@ title: AI Automation | Empower People
         .github-corner {
             display: none;
         }
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 300px;
+            height: 300px;
+            margin-top: -2rem;
+        }
+
+        .logo-icon svg {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="slogan-container">
             <div class="title-container">
-                <h1 class="static-part">
-                    <span style="letter-spacing: 0.08em;">AGENTIC</span>
-                    <span style="letter-spacing: 0.05em; margin-left: 0.2em;">9</span>
-                </h1>
+                <div class="logo-container">
+                    <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 100 100">
+                        <defs>
+                            <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#60a5fa"/>
+                                <stop offset="50%" style="stop-color:#8b5cf6"/>
+                                <stop offset="100%" style="stop-color:#ec4899"/>
+                            </linearGradient>
+                        </defs>
+                        <g transform="scale(1.8)">
+                            <g stroke="url(#iconGradient)" stroke-width="0.25">
+                                <line x1="-20" y1="0" x2="20" y2="0"/>
+                                <line x1="-17" y1="-10" x2="17" y2="-10"/>
+                                <line x1="-17" y1="-5" x2="17" y2="-5"/>
+                                <line x1="-17" y1="5" x2="17" y2="5"/>
+                                <line x1="-17" y1="10" x2="17" y2="10"/>
+                                <line x1="0" y1="-20" x2="0" y2="20"/>
+                                <line x1="-10" y1="-17" x2="-10" y2="17"/>
+                                <line x1="-5" y1="-17" x2="-5" y2="17"/>
+                                <line x1="5" y1="-17" x2="5" y2="17"/>
+                                <line x1="10" y1="-17" x2="10" y2="17"/>
+                                <line x1="-14" y1="-14" x2="14" y2="14"/>
+                                <line x1="-14" y1="14" x2="14" y2="-14"/>
+                                <line x1="-7" y1="-14" x2="14" y2="7"/>
+                                <line x1="-14" y1="7" x2="7" y2="-14"/>
+                                <line x1="-14" y1="-7" x2="7" y2="14"/>
+                                <line x1="-7" y1="14" x2="14" y2="-7"/>
+                                <line x1="-20" y1="0" x2="0" y2="-20"/>
+                                <line x1="0" y1="-20" x2="20" y2="0"/>
+                                <line x1="20" y1="0" x2="0" y2="20"/>
+                                <line x1="0" y1="20" x2="-20" y2="0"/>
+                                <line x1="-17" y1="-7" x2="0" y2="10"/>
+                                <line x1="0" y1="10" x2="17" y2="-7"/>
+                                <line x1="-17" y1="7" x2="0" y2="-10"/>
+                                <line x1="0" y1="-10" x2="17" y2="7"/>
+                            </g>
+                        </g>
+                    </svg>
+                    <h1 class="static-part">
+                        <span style="letter-spacing: 0.08em;"><span class="capital">A</span><span style="text-transform: lowercase">gentic</span>9</span>
+                    </h1>
+                </div>
                 <div class="gradient-line">
                     <hr/>
                     <hr/>
