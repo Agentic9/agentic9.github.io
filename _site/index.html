@@ -126,19 +126,56 @@
             font-family: 'Unbounded', sans-serif;
             font-size: clamp(2.5rem, 10vw, 6rem);
             font-weight: 800;
-            background: linear-gradient(135deg, #60a5fa 0%, #8b5cf6 50%, #ec4899 100%);
+            background: linear-gradient(135deg, 
+                #60a5fa 0%, 
+                #8b5cf6 50%, 
+                #ec4899 100%
+            );
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradientFlow 8s ease infinite;
-            background-size: 200% 200%;
             margin: 0;
             line-height: 1.1;
             text-align: center;
             width: 100%;
-            letter-spacing: -0.02em;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
             padding: 0 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        .title-container {
+            position: relative;
+            display: inline-block;
+            margin: 0 auto;
+        }
+        .gradient-line {
+            display: block;
+            width: 100%;
+            height: 8px;
+            position: relative;
+            margin-top: 0.5rem;
+        }
+
+        .gradient-line hr {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            border: none;
+            margin: 0;
+            background: linear-gradient(135deg, 
+                #60a5fa 0%, 
+                #8b5cf6 50%, 
+                #ec4899 100%
+            );
+        }
+
+        .gradient-line hr:first-child {
+            top: 0;
+        }
+
+        .gradient-line hr:last-child {
+            top: 3px;
         }
         .dynamic-part {
             font-family: 'Shadows Into Light', cursive;
@@ -148,7 +185,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradientFlow 8s ease infinite;
             background-size: 200% 200%;
             transition: all 0.3s ease-out;
             opacity: 1;
@@ -157,25 +193,6 @@
             text-align: center;
             width: 100%;
             max-width: min(800px, 90vw);
-        }
-        .dynamic-part.fade-out {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        .dynamic-part.fade-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        @keyframes gradientFlow {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
         }
         .social-links a {
             opacity: 0.7;
@@ -193,7 +210,16 @@
 <body>
     <div class="container">
         <div class="slogan-container">
-            <h1 class="static-part">AGENTIC 9</h1>
+            <div class="title-container">
+                <h1 class="static-part">
+                    <span style="letter-spacing: 0.08em;">AGENTIC</span>
+                    <span style="letter-spacing: 0.05em; margin-left: 0.2em;">9</span>
+                </h1>
+                <div class="gradient-line">
+                    <hr/>
+                    <hr/>
+                </div>
+            </div>
             <h2 class="dynamic-part" id="rotating-text"></h2>
             <div class="social-links" style="margin-top: 2rem; display: flex; gap: 1.5rem; align-items: center; justify-content: center;">
             </div>
@@ -228,18 +254,8 @@
         dynamicPart.textContent = phrases[currentIndex];
 
         function updatePhrase() {
-            dynamicPart.classList.add('fade-out');
-            
-            setTimeout(() => {
-                currentIndex = (currentIndex + 1) % phrases.length;
-                dynamicPart.textContent = phrases[currentIndex];
-                dynamicPart.classList.remove('fade-out');
-                dynamicPart.classList.add('fade-in');
-                
-                setTimeout(() => {
-                    dynamicPart.classList.remove('fade-in');
-                }, 500);
-            }, 500);
+            currentIndex = (currentIndex + 1) % phrases.length;
+            dynamicPart.textContent = phrases[currentIndex];
         }
 
         setInterval(updatePhrase, 15000);
