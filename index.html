@@ -14,6 +14,67 @@ title: Agentic9
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&family=Shadows+Into+Light&display=swap" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=chillax@600,700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #000000;
+            --text-gradient-1: #60a5fa;
+            --text-gradient-2: #8b5cf6;
+            --text-gradient-3: #ec4899;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: #ffffff;
+            }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 50px;
+            height: 24px;
+            border-radius: 12px;
+            background-color: #333;
+            cursor: pointer;
+            padding: 0;
+            border: none;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: relative;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle.light {
+            background: linear-gradient(135deg, 
+                var(--text-gradient-2) 0%, 
+                var(--text-gradient-3) 100%
+            );
+        }
+
+        .theme-toggle.light::before {
+            transform: translateX(26px);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -47,9 +108,9 @@ title: Agentic9
             font-size: clamp(2.5rem, 10vw, 6rem);
             font-weight: 200;
             background: linear-gradient(135deg, 
-                #60a5fa 0%, 
-                #8b5cf6 50%, 
-                #ec4899 100%
+                var(--text-gradient-1) 0%, 
+                var(--text-gradient-2) 50%, 
+                var(--text-gradient-3) 100%
             );
             -webkit-background-clip: text;
             background-clip: text;
@@ -85,9 +146,9 @@ title: Agentic9
             border: none;
             margin: 0;
             background: linear-gradient(135deg, 
-                #60a5fa 0%, 
-                #8b5cf6 50%, 
-                #ec4899 100%
+                var(--text-gradient-1) 0%, 
+                var(--text-gradient-2) 50%, 
+                var(--text-gradient-3) 100%
             );
         }
 
@@ -102,7 +163,7 @@ title: Agentic9
             font-family: 'Shadows Into Light', cursive;
             font-size: clamp(1.5rem, 4vw, 2.5rem);
             font-weight: normal;
-            background: linear-gradient(135deg, #60a5fa 0%, #8b5cf6 50%, #ec4899 100%);
+            background: linear-gradient(135deg, var(--text-gradient-1) 0%, var(--text-gradient-2) 50%, var(--text-gradient-3) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -161,9 +222,9 @@ title: Agentic9
                     <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 100 100">
                         <defs>
                             <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#60a5fa"/>
-                                <stop offset="50%" style="stop-color:#8b5cf6"/>
-                                <stop offset="100%" style="stop-color:#ec4899"/>
+                                <stop offset="0%" style="stop-color:var(--text-gradient-1)"/>
+                                <stop offset="50%" style="stop-color:var(--text-gradient-2)"/>
+                                <stop offset="100%" style="stop-color:var(--text-gradient-3)"/>
                             </linearGradient>
                         </defs>
                         <g transform="scale(1.8)">

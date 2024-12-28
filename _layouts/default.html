@@ -14,6 +14,45 @@
             overflow-x: hidden;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 50px;
+            height: 24px;
+            border-radius: 12px;
+            background-color: #333;
+            cursor: pointer;
+            padding: 0;
+            border: none;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: relative;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle.light {
+            background: linear-gradient(135deg, 
+                #8b5cf6 0%, 
+                #ec4899 100%
+            );
+        }
+
+        .theme-toggle.light::before {
+            transform: translateX(26px);
+        }
+
         #background-container {
             position: fixed;
             top: 0;
@@ -60,6 +99,7 @@
     </script>
 </head>
 <body class="bg-black">
+    <button class="theme-toggle" aria-label="Toggle theme"></button>
     <div id="background-container"></div>
 
     <main class="page-content">
@@ -85,32 +125,63 @@
             new THREE.TetrahedronGeometry(1),
             new THREE.OctahedronGeometry(1)
         ];
-        const material = new THREE.MeshStandardMaterial({ 
-            color: 0x6366f1, 
+
+        // Create materials for both themes
+        const darkMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x6366f1, // Indigo color
             metalness: 0.7, 
             roughness: 0.3 
         });
 
+        const lightMaterial = new THREE.LineBasicMaterial({ 
+            color: 0xec4899, // Pink color
+            linewidth: 1
+        });
+
+        let currentMaterial = darkMaterial;
+        const meshes = [];
+        const wireframes = [];
+
+        // Function to update theme
+        function updateTheme(isDark) {
+            meshes.forEach((mesh, index) => {
+                mesh.visible = isDark;
+                wireframes[index].visible = !isDark;
+            });
+        }
+
         for (let i = 0; i < 30; i++) {
-            const mesh = new THREE.Mesh(
-                geometries[Math.floor(Math.random() * geometries.length)],
-                material
-            );
+            const geometry = geometries[Math.floor(Math.random() * geometries.length)];
             
-            mesh.position.set(
+            // Create solid mesh
+            const mesh = new THREE.Mesh(geometry, darkMaterial);
+            setObjectProperties(mesh);
+            group.add(mesh);
+            meshes.push(mesh);
+
+            // Create wireframe
+            const wireframeGeometry = new THREE.EdgesGeometry(geometry);
+            const wireframe = new THREE.LineSegments(wireframeGeometry, lightMaterial);
+            setObjectProperties(wireframe);
+            wireframe.visible = false;
+            group.add(wireframe);
+            wireframes.push(wireframe);
+        }
+
+        function setObjectProperties(obj) {
+            obj.position.set(
                 Math.random() * 40 - 20,
                 Math.random() * 40 - 20,
                 Math.random() * -50 - 10
             );
             
-            mesh.rotation.set(
+            obj.rotation.set(
                 Math.random() * Math.PI,
                 Math.random() * Math.PI,
                 Math.random() * Math.PI
             );
             
-            mesh.scale.setScalar(Math.random() * 0.5 + 0.2);
-            group.add(mesh);
+            obj.scale.setScalar(Math.random() * 0.5 + 0.2);
         }
 
         scene.add(group);
@@ -132,9 +203,9 @@
             group.rotation.x += 0.001;
             group.rotation.y += 0.002;
             
-            group.children.forEach((mesh, index) => {
-                mesh.rotation.x += 0.005 * (index % 3 + 1);
-                mesh.rotation.y += 0.003 * (index % 3 + 1);
+            group.children.forEach((obj, index) => {
+                obj.rotation.x += 0.005 * (index % 3 + 1);
+                obj.rotation.y += 0.003 * (index % 3 + 1);
             });
 
             renderer.render(scene, camera);
@@ -150,6 +221,52 @@
             camera.updateProjectionMatrix();
             
             renderer.setSize(width, height);
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        
+        function setTheme(isDark) {
+            document.body.style.backgroundColor = isDark ? '#000000' : '#ffffff';
+            themeToggle.classList.toggle('light', !isDark);
+            
+            // Update 3D objects
+            updateTheme(isDark);
+            
+            // Update SVG gradient colors
+            const gradientStops = document.querySelectorAll('#iconGradient stop');
+            if (gradientStops.length > 0) {
+                if (isDark) {
+                    gradientStops[0].style.stopColor = '#60a5fa';
+                    gradientStops[1].style.stopColor = '#8b5cf6';
+                    gradientStops[2].style.stopColor = '#ec4899';
+                } else {
+                    gradientStops[0].style.stopColor = '#8b5cf6';
+                    gradientStops[1].style.stopColor = '#a855f7';
+                    gradientStops[2].style.stopColor = '#ec4899';
+                }
+            }
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Check system preference and stored preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const storedTheme = localStorage.getItem('theme');
+        const initialTheme = storedTheme === 'light' ? false : storedTheme === 'dark' ? true : prefersDark;
+        
+        setTheme(initialTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.style.backgroundColor === 'rgb(0, 0, 0)';
+            setTheme(!isDark);
+        });
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches);
+            }
         });
     </script>
     {% if site.google_analytics %}
