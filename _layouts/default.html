@@ -127,8 +127,24 @@
         ];
 
         // Create materials for both themes
+        const darkGradientTexture = new THREE.CanvasTexture(
+            (() => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 256;
+                const ctx = canvas.getContext('2d');
+                const gradient = ctx.createLinearGradient(0, 0, 256, 256);
+                gradient.addColorStop(0, '#60a5fa');   // Blue
+                gradient.addColorStop(0.5, '#8b5cf6'); // Purple
+                gradient.addColorStop(1, '#ec4899');   // Pink
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 256, 256);
+                return canvas;
+            })()
+        );
+
         const darkMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x6366f1, // Indigo color
+            map: darkGradientTexture,
             metalness: 0.7, 
             roughness: 0.3 
         });
