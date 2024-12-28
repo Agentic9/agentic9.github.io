@@ -1,0 +1,61 @@
+title: Radek Dymacz | AI & Automation Expert
+description: Expert in AI, Machine Learning, Cloud Architecture, and Intelligent Automation. Specializing in AI agents, cloud solutions, and enterprise automation.
+url: https://radekdymacz.github.io
+author: Radek Dymacz
+twitter:
+  username: radekdymacz
+  card: summary_large_image
+social:
+  name: Radek Dymacz
+  links:
+    - https://github.com/agentic9
+    - https://linkedin.com/in/agentic9
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: false
+      start_line: 1
+  auto_ids: true
+  toc_levels: 1..3
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+
+theme: jekyll-theme-minimal
+sass:
+  style: compressed
+  sass_dir: assets/css
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Documentation settings
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:path/
+
+defaults:
+  - scope:
+      path: "docs/agentic"
+      type: "pages"
+    values:
+      layout: "agentic"
+      sidebar: true
+
+# Google Analytics
+google_analytics: # Add your Google Analytics ID here
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Driven Automation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        #background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .page-content {
+            min-height: 100vh;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>AI Automation Empower People | Radek Dymacz AI &amp; Automation Expert</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="AI Automation Empower People" />
+<meta name="author" content="Radek Dymacz" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Expert in AI, Machine Learning, Cloud Architecture, and Intelligent Automation. Specializing in AI agents, cloud solutions, and enterprise automation." />
+<meta property="og:description" content="Expert in AI, Machine Learning, Cloud Architecture, and Intelligent Automation. Specializing in AI agents, cloud solutions, and enterprise automation." />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
+<meta property="og:site_name" content="Radek Dymacz AI &amp; Automation Expert" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="AI Automation Empower People" />
+<meta name="twitter:site" content="@radekdymacz" />
+<meta name="twitter:creator" content="@Radek Dymacz" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Radek Dymacz"},"description":"Expert in AI, Machine Learning, Cloud Architecture, and Intelligent Automation. Specializing in AI agents, cloud solutions, and enterprise automation.","headline":"AI Automation Empower People","name":"Radek Dymacz","sameAs":["https://github.com/radekdymacz","https://linkedin.com/in/radekdymacz"],"url":"http://localhost:4000/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Radek Dymacz",
+      "jobTitle": "AI and Automation Expert",
+      "description": "Expert in AI, Machine Learning, Cloud Architecture, and Intelligent Automation",
+      "url": "https://radekdymacz.github.io",
+      "sameAs": [
+        "https://github.com/radekdymacz",
+        "https://linkedin.com/in/radekdymacz",
+        "https://cal.com/radek-dymacz"
+      ],
+      "knowsAbout": [
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Cloud Architecture",
+        "Enterprise Automation",
+        "AI Agents",
+        "Digital Transformation",
+        "Cloud Solutions"
+      ],
+      "potentialAction": {
+        "@type": "Action",
+        "name": "Schedule Meeting",
+        "url": "https://cal.com/radek-dymacz"
+      }
+    }
+    </script>
+</head>
+<body class="bg-black">
+    <div id="background-container"></div>
+
+    <main class="page-content">
+        <div class="wrapper">
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI-Driven Automation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=chillax@600,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            height: 100vh;
+            height: 100dvh; /* For mobile browsers */
+            display: grid;
+            place-items: center;
+            z-index: 10;
+            padding: 1rem;
+            touch-action: manipulation;
+        }
+        .slogan-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(0.25rem, 1.5vw, 1rem);
+            padding: clamp(0.5rem, 2vw, 1rem);
+            width: min(95%, 1200px);
+            margin-top: min(-10vh, -80px);
+        }
+        .static-part {
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(2.5rem, 10vw, 6rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa 0%, #8b5cf6 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 8s ease infinite;
+            background-size: 200% 200%;
+            margin: 0;
+            line-height: 1.1;
+            text-align: center;
+            width: 100%;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            padding: 0 0.5rem;
+        }
+        .dynamic-part {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: normal;
+            background: linear-gradient(135deg, #60a5fa 0%, #8b5cf6 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 8s ease infinite;
+            background-size: 200% 200%;
+            transition: all 0.3s ease-out;
+            opacity: 1;
+            margin: 0;
+            line-height: 1.3;
+            text-align: center;
+            width: 100%;
+            max-width: min(800px, 90vw);
+        }
+        .dynamic-part.fade-out {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .dynamic-part.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .social-links a {
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .social-links a:hover {
+            opacity: 1;
+        }
+        /* Remove the GitHub corner styles */
+        .github-corner {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="slogan-container">
+            <h1 class="static-part">Empower</h1>
+            <h2 class="dynamic-part" id="rotating-text"></h2>
+            <div class="social-links" style="margin-top: 2rem; display: flex; gap: 1.5rem; align-items: center; justify-content: center;">
+                <a href="https://github.com/radekdymacz" target="_blank" rel="noopener noreferrer" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg height="24" width="24" viewBox="0 0 16 16" style="fill: currentColor;">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const phrases = [
+            "People with AI-Driven Automation and Expertise",
+            "Teams with Intelligent Automation Solutions",
+            "Businesses with AI-Powered Expertise",
+            "Professionals with Smart Automation Tools",
+            "Organizations with AI-Driven Intelligence",
+            "Enterprises with Automated Excellence",
+            "Workflows with AI-Enhanced Precision",
+            "Operations with Intelligent Automation",
+            "Industries with AI-Driven Innovation",
+            "Companies with Smart Technology Solutions",
+            "Processes with AI-Powered Efficiency",
+            "Projects with Intelligent Automation",
+            "Development with AI-Enhanced Tools",
+            "Services with Smart Automation",
+            "Solutions with AI-Driven Excellence",
+            "Systems with Intelligent Integration",
+            "Performance with AI-Powered Precision",
+            "Success with Smart Automation"
+        ];
+
+        // Start with a random phrase
+        let currentIndex = Math.floor(Math.random() * phrases.length);
+        const dynamicPart = document.getElementById('rotating-text');
+        dynamicPart.textContent = phrases[currentIndex];
+
+        function updatePhrase() {
+            dynamicPart.classList.add('fade-out');
+            
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % phrases.length;
+                dynamicPart.textContent = phrases[currentIndex];
+                dynamicPart.classList.remove('fade-out');
+                dynamicPart.classList.add('fade-in');
+                
+                setTimeout(() => {
+                    dynamicPart.classList.remove('fade-in');
+                }, 500);
+            }, 500);
+        }
+
+        setInterval(updatePhrase, 15000);
+    </script>
+</body>
+</html>
+
+        </div>
+    </main>
+
+    <script>
+        // 3D Background with Three.js
+        const container = document.getElementById('background-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        // Create a group of floating geometric shapes
+        const group = new THREE.Group();
+        const geometries = [
+            new THREE.IcosahedronGeometry(1, 0),
+            new THREE.TetrahedronGeometry(1),
+            new THREE.OctahedronGeometry(1)
+        ];
+        const material = new THREE.MeshStandardMaterial({ 
+            color: 0x6366f1, 
+            metalness: 0.7, 
+            roughness: 0.3 
+        });
+
+        for (let i = 0; i < 30; i++) {
+            const mesh = new THREE.Mesh(
+                geometries[Math.floor(Math.random() * geometries.length)],
+                material
+            );
+            
+            mesh.position.set(
+                Math.random() * 40 - 20,
+                Math.random() * 40 - 20,
+                Math.random() * -50 - 10
+            );
+            
+            mesh.rotation.set(
+                Math.random() * Math.PI,
+                Math.random() * Math.PI,
+                Math.random() * Math.PI
+            );
+            
+            mesh.scale.setScalar(Math.random() * 0.5 + 0.2);
+            group.add(mesh);
+        }
+
+        scene.add(group);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(1, 1, 1);
+        scene.add(directionalLight);
+
+        camera.position.z = 5;
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            group.rotation.x += 0.001;
+            group.rotation.y += 0.002;
+            
+            group.children.forEach((mesh, index) => {
+                mesh.rotation.x += 0.005 * (index % 3 + 1);
+                mesh.rotation.y += 0.003 * (index % 3 + 1);
+            });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Responsive
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            
+            renderer.setSize(width, height);
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Driven Automation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        #background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .page-content {
+            min-height: 100vh;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+    {% seo %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Radek Dymacz",
+      "jobTitle": "AI and Automation Expert",
+      "description": "Expert in AI, Machine Learning, Cloud Architecture, and Intelligent Automation",
+      "url": "https://radekdymacz.github.io",
+      "sameAs": [
+        "https://github.com/radekdymacz",
+        "https://linkedin.com/in/radekdymacz",
+        "https://cal.com/radek-dymacz"
+      ],
+      "knowsAbout": [
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Cloud Architecture",
+        "Enterprise Automation",
+        "AI Agents",
+        "Digital Transformation",
+        "Cloud Solutions"
+      ],
+      "potentialAction": {
+        "@type": "Action",
+        "name": "Schedule Meeting",
+        "url": "https://cal.com/radek-dymacz"
+      }
+    }
+    </script>
+</head>
+<body class="bg-black">
+    <div id="background-container"></div>
+
+    <main class="page-content">
+        <div class="wrapper">
+            {{ content }}
+        </div>
+    </main>
+
+    <script>
+        // 3D Background with Three.js
+        const container = document.getElementById('background-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        // Create a group of floating geometric shapes
+        const group = new THREE.Group();
+        const geometries = [
+            new THREE.IcosahedronGeometry(1, 0),
+            new THREE.TetrahedronGeometry(1),
+            new THREE.OctahedronGeometry(1)
+        ];
+        const material = new THREE.MeshStandardMaterial({ 
+            color: 0x6366f1, 
+            metalness: 0.7, 
+            roughness: 0.3 
+        });
+
+        for (let i = 0; i < 30; i++) {
+            const mesh = new THREE.Mesh(
+                geometries[Math.floor(Math.random() * geometries.length)],
+                material
+            );
+            
+            mesh.position.set(
+                Math.random() * 40 - 20,
+                Math.random() * 40 - 20,
+                Math.random() * -50 - 10
+            );
+            
+            mesh.rotation.set(
+                Math.random() * Math.PI,
+                Math.random() * Math.PI,
+                Math.random() * Math.PI
+            );
+            
+            mesh.scale.setScalar(Math.random() * 0.5 + 0.2);
+            group.add(mesh);
+        }
+
+        scene.add(group);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(1, 1, 1);
+        scene.add(directionalLight);
+
+        camera.position.z = 5;
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            group.rotation.x += 0.001;
+            group.rotation.y += 0.002;
+            
+            group.children.forEach((mesh, index) => {
+                mesh.rotation.x += 0.005 * (index % 3 + 1);
+                mesh.rotation.y += 0.003 * (index % 3 + 1);
+            });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Responsive
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            
+            renderer.setSize(width, height);
+        });
+    </script>
+    {% if site.google_analytics %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ site.google_analytics }}');
+    </script>
+    {% endif %}
+</body>
+</html>
