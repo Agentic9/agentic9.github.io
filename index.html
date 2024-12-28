@@ -134,10 +134,17 @@ title: Agentic9
             margin-bottom: 0.5rem;
         }
 
+        @keyframes rotateLogo {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .logo-icon {
             width: 300px;
             height: 300px;
             margin-top: -2rem;
+            transform-origin: center;
+            transition: transform 0.5s ease-in-out;
         }
 
         .logo-icon svg {
@@ -204,6 +211,30 @@ title: Agentic9
     </div>
 
     <script>
+        // Random rotation for logo
+        function rotateRandomly() {
+            const logo = document.querySelector('.logo-icon');
+            const currentRotation = (parseInt(logo.dataset.rotation) || 0);
+            
+            // Random angle: 45, 90, or 180 degrees
+            const angles = [45, 90, 180];
+            const randomAngle = angles[Math.floor(Math.random() * angles.length)];
+            
+            // Random direction: -1 for left, 1 for right
+            const direction = Math.random() < 0.5 ? -1 : 1;
+            
+            const newRotation = currentRotation + (randomAngle * direction);
+            logo.style.transform = `rotate(${newRotation}deg)`;
+            logo.dataset.rotation = newRotation;
+            
+            // Schedule next rotation at random interval between 5 and 15 seconds
+            const nextRotation = Math.random() * (15000 - 5000) + 5000;
+            setTimeout(rotateRandomly, nextRotation);
+        }
+
+        // Start random rotations after a delay
+        setTimeout(rotateRandomly, 3000);
+
         const phrases = [
             "Empower People with AI-Driven Automation and Expertise",
             "Transform Teams with Intelligent Automation Solutions",
