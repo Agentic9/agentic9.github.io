@@ -1,0 +1,11 @@
+// Marketing site as a static-assets Worker on agentic9.ai. Deployed by .github/workflows/deploy.yml.
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "agentic9-site",
+  "compatibility_date": "2026-09-01",
+  "assets": { "directory": "./", "not_found_handling": "404-page" },
+  "routes": [
+    { "pattern": "agentic9.ai", "custom_domain": true },
+    { "pattern": "www.agentic9.ai", "custom_domain": true }
+  ]
+}

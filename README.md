@@ -13,17 +13,4 @@ no build step, no Jekyll (`.nojekyll` is present).
 
 ## Deploy
 
-1. Push to the repository's default branch.
-2. In the repository settings, under **Pages**, set the source to *Deploy from a
-   branch*, choose the default branch and the `/ (root)` folder.
-3. Set the custom domain to `agentic9.ai` (the `CNAME` file must stay as is) and
-   enable *Enforce HTTPS*.
-
-DNS for `agentic9.ai` should point at GitHub Pages (A/AAAA records for the apex,
-or a CNAME for `www`), as described in the GitHub Pages documentation.
-
-## Local preview
-
-    python3 -m http.server 8000
-
-then open <http://localhost:8000>.
+Deployed by GitHub Actions (`.github/workflows/deploy.yml`) as a Cloudflare Worker serving static assets on `agentic9.ai`. Repository secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. The `CNAME` and `.nojekyll` files are left for the GitHub Pages fallback until DNS is switched; disable Pages once the Worker serves the domain.
