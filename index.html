@@ -1,338 +1,133 @@
----
-layout: default
-title: Agentic9
----
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI-Driven Automation</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&family=Shadows+Into+Light&display=swap" rel="stylesheet">
-    <link href="https://api.fontshare.com/v2/css?f[]=chillax@600,700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #000000;
-            --text-gradient-1: #60a5fa;
-            --text-gradient-2: #8b5cf6;
-            --text-gradient-3: #ec4899;
-        }
-
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg-color: #ffffff;
-            }
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-color: var(--bg-color);
-            transition: background-color 0.3s ease;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            width: 50px;
-            height: 24px;
-            border-radius: 12px;
-            background-color: #333;
-            cursor: pointer;
-            padding: 0;
-            border: none;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
-
-        .theme-toggle::before {
-            content: '';
-            position: relative;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: white;
-            transition: transform 0.3s ease;
-        }
-
-        .theme-toggle.light {
-            background: linear-gradient(135deg, 
-                var(--text-gradient-2) 0%, 
-                var(--text-gradient-3) 100%
-            );
-        }
-
-        .theme-toggle.light::before {
-            transform: translateX(26px);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html, body {
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-        }
-        .container {
-            height: 100vh;
-            height: 100dvh; /* For mobile browsers */
-            display: grid;
-            place-items: center;
-            z-index: 10;
-            padding: 1rem;
-            touch-action: manipulation;
-        }
-        .slogan-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: clamp(0.25rem, 1.5vw, 1rem);
-            padding: clamp(0.5rem, 2vw, 1rem);
-            width: min(95%, 1200px);
-            margin-top: min(-10vh, -80px);
-        }
-        .static-part {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            font-size: clamp(2.5rem, 10vw, 6rem);
-            font-weight: 200;
-            background: linear-gradient(135deg, 
-                var(--text-gradient-1) 0%, 
-                var(--text-gradient-2) 50%, 
-                var(--text-gradient-3) 100%
-            );
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-            text-align: center;
-            width: 100%;
-            letter-spacing: 0.05em;
-            padding: 0 0.5rem;
-            position: relative;
-            display: inline-block;
-        }
-        .static-part .capital {
-            font-weight: 300;
-        }
-        .title-container {
-            position: relative;
-            display: inline-block;
-            margin: 0 auto;
-        }
-        .gradient-line {
-            display: block;
-            width: 100%;
-            height: 8px;
-            position: relative;
-            margin-top: 0.5rem;
-        }
-
-        .gradient-line hr {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            border: none;
-            margin: 0;
-            background: linear-gradient(135deg, 
-                var(--text-gradient-1) 0%, 
-                var(--text-gradient-2) 50%, 
-                var(--text-gradient-3) 100%
-            );
-        }
-
-        .gradient-line hr:first-child {
-            top: 0;
-        }
-
-        .gradient-line hr:last-child {
-            top: 3px;
-        }
-        .dynamic-part {
-            font-family: 'Shadows Into Light', cursive;
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: normal;
-            background: linear-gradient(135deg, var(--text-gradient-1) 0%, var(--text-gradient-2) 50%, var(--text-gradient-3) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% 200%;
-            transition: all 0.3s ease-out;
-            opacity: 1;
-            margin: 0;
-            line-height: 1.3;
-            text-align: center;
-            width: 100%;
-            max-width: min(800px, 90vw);
-        }
-        .social-links a {
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-        .social-links a:hover {
-            opacity: 1;
-        }
-        /* Remove the GitHub corner styles */
-        .github-corner {
-            display: none;
-        }
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        @keyframes rotateLogo {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .logo-icon {
-            width: 300px;
-            height: 300px;
-            margin-top: -2rem;
-            transform-origin: center;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .logo-icon svg {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic9 Crew</title>
+<meta name="description" content="Persistent, named AI teammates with their own computers, memory and tools. Message them like colleagues; they run tasks end to end and come back only when something needs approval.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b0d10">
+<meta property="og:title" content="Agentic9 Crew">
+<meta property="og:description" content="AI teammates you message like colleagues. Each with its own computer, memory and tools. Mobile first, multi-agent, always on.">
+<meta property="og:url" content="https://agentic9.ai/">
+<link rel="canonical" href="https://agentic9.ai/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="slogan-container">
-            <div class="title-container">
-                <div class="logo-container">
-                    <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 100 100">
-                        <defs>
-                            <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:var(--text-gradient-1)"/>
-                                <stop offset="50%" style="stop-color:var(--text-gradient-2)"/>
-                                <stop offset="100%" style="stop-color:var(--text-gradient-3)"/>
-                            </linearGradient>
-                        </defs>
-                        <g transform="scale(1.8)">
-                            <g stroke="url(#iconGradient)" stroke-width="0.25">
-                                <line x1="-20" y1="0" x2="20" y2="0"/>
-                                <line x1="-17" y1="-10" x2="17" y2="-10"/>
-                                <line x1="-17" y1="-5" x2="17" y2="-5"/>
-                                <line x1="-17" y1="5" x2="17" y2="5"/>
-                                <line x1="-17" y1="10" x2="17" y2="10"/>
-                                <line x1="0" y1="-20" x2="0" y2="20"/>
-                                <line x1="-10" y1="-17" x2="-10" y2="17"/>
-                                <line x1="-5" y1="-17" x2="-5" y2="17"/>
-                                <line x1="5" y1="-17" x2="5" y2="17"/>
-                                <line x1="10" y1="-17" x2="10" y2="17"/>
-                                <line x1="-14" y1="-14" x2="14" y2="14"/>
-                                <line x1="-14" y1="14" x2="14" y2="-14"/>
-                                <line x1="-7" y1="-14" x2="14" y2="7"/>
-                                <line x1="-14" y1="7" x2="7" y2="-14"/>
-                                <line x1="-14" y1="-7" x2="7" y2="14"/>
-                                <line x1="-7" y1="14" x2="14" y2="-7"/>
-                                <line x1="-20" y1="0" x2="0" y2="-20"/>
-                                <line x1="0" y1="-20" x2="20" y2="0"/>
-                                <line x1="20" y1="0" x2="0" y2="20"/>
-                                <line x1="0" y1="20" x2="-20" y2="0"/>
-                                <line x1="-17" y1="-7" x2="0" y2="10"/>
-                                <line x1="0" y1="10" x2="17" y2="-7"/>
-                                <line x1="-17" y1="7" x2="0" y2="-10"/>
-                                <line x1="0" y1="-10" x2="17" y2="7"/>
-                            </g>
-                        </g>
-                    </svg>
-                    <h1 class="static-part">
-                        <span style="letter-spacing: 0.08em;"><span class="capital">A</span><span style="text-transform: lowercase">gentic</span>9</span>
-                    </h1>
-                </div>
-                <div class="gradient-line">
-                    <hr/>
-                    <hr/>
-                </div>
-            </div>
-            <h2 class="dynamic-part" id="rotating-text"></h2>
-            <div class="social-links" style="margin-top: 2rem; display: flex; gap: 1.5rem; align-items: center; justify-content: center;">
-            </div>
-        </div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--bg-2)"/><circle cx="10" cy="11" r="3.2" fill="var(--accent)"/><circle cx="22" cy="11" r="3.2" fill="var(--accent)"/><circle cx="16" cy="22" r="3.2" fill="var(--accent)"/><path d="M10 11h12M10 11l6 11M22 11l-6 11" stroke="var(--accent)" stroke-width="1.6" fill="none"/></svg>
+      Agentic9
+    </a>
+    <nav class="main" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#traits">Traits</a>
+      <a href="#stack">Stack</a>
+      <a href="/docs/">Docs</a>
+      <a href="https://github.com/Agentic9/agentic9">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="hero">
+    <div class="wrap">
+      <span class="tag">Early access · internal pilot</span>
+      <h1>AI teammates you message like colleagues.</h1>
+      <p class="lead">Agentic9 Crew gives you persistent, named bots. Each has its own computer, its own memory and its own connected tools. They run tasks end to end while your devices are off, hand work to each other, and come back only when something needs your approval.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://app.agentic9.ai">Open the app</a>
+        <a class="btn" href="/docs/">Read the architecture</a>
+      </div>
     </div>
+  </div>
 
-    <script>
-        // Random rotation for logo
-        function rotateRandomly() {
-            const logo = document.querySelector('.logo-icon');
-            const currentRotation = (parseInt(logo.dataset.rotation) || 0);
-            
-            // Random angle: 45, 90, or 180 degrees
-            const angles = [45, 90, 180];
-            const randomAngle = angles[Math.floor(Math.random() * angles.length)];
-            
-            // Random direction: -1 for left, 1 for right
-            const direction = Math.random() < 0.5 ? -1 : 1;
-            
-            const newRotation = currentRotation + (randomAngle * direction);
-            logo.style.transform = `rotate(${newRotation}deg)`;
-            logo.dataset.rotation = newRotation;
-            
-            // Schedule next rotation at random interval between 5 and 15 seconds
-            const nextRotation = Math.random() * (15000 - 5000) + 5000;
-            setTimeout(rotateRandomly, nextRotation);
-        }
+  <section id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="intro">Give a bot a name, a title and a description of what it does. Then talk to it. It plans, works in its own sandbox, delegates to teammates when the job crosses into their remit, and pauses only for the decisions you want to make yourself.</p>
+      <div class="chat" aria-label="Example conversation">
+        <div class="m"><span class="who">you</span><p>Ops, pull last month's invoices from Xero, reconcile against the bank feed and draft the summary for Friday.</p></div>
+        <div class="m"><span class="who">Ops</span><p>On it. Reconciling now. Two invoices do not match; asking Finance to check the FX rates before I write anything up.</p></div>
+        <div class="m"><span class="who">Finance</span><p>Rates confirmed. Difference is a bank fee, not an error. Back to you, Ops.</p></div>
+        <div class="m"><span class="who">Ops</span><p>Summary drafted. I need approval to send it to the board list. One tap in the app.</p></div>
+      </div>
+    </div>
+  </section>
 
-        // Start random rotations after a delay
-        setTimeout(rotateRandomly, 3000);
+  <section id="traits">
+    <div class="wrap">
+      <h2>Six traits</h2>
+      <p class="intro">Three of these are what set Agentic9 apart: mobile first, multi-agent, and real data connections. The other three make the whole thing dependable.</p>
+      <div class="grid">
+        <article class="card">
+          <span class="n">01</span>
+          <h3>A computer per agent</h3>
+          <p>Every bot has its own cloud sandbox with a filesystem, a terminal and a browser. Work persists between conversations; nothing runs on your laptop.</p>
+        </article>
+        <article class="card hi">
+          <span class="n">02</span>
+          <h3>Multi-bot collaboration</h3>
+          <p>Bots have a name, a title and a description. Delegation is routed on those descriptions, and group threads let several bots and people work the same problem.</p>
+        </article>
+        <article class="card hi">
+          <span class="n">03</span>
+          <h3>Mobile first and always on</h3>
+          <p>Designed for the phone in your pocket. Bots keep working while your devices are off and reach you with a push notification when it matters.</p>
+        </article>
+        <article class="card hi">
+          <span class="n">04</span>
+          <h3>Data connections</h3>
+          <p>OAuth connectors and custom MCP servers, scoped per bot. Your sales bot sees the CRM; your ops bot does not, unless you say so.</p>
+        </article>
+        <article class="card">
+          <span class="n">05</span>
+          <h3>Routines and triggers</h3>
+          <p>A 07:00 daily brief. Act on every new email. Watch a Slack channel. Schedules and events start work without you starting it.</p>
+        </article>
+        <article class="card">
+          <span class="n">06</span>
+          <h3>Selective human approval</h3>
+          <p>Autonomous by default. Sensitive actions pause and wait for one-tap approval via push notification, then carry on exactly where they left off.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-        const phrases = [
-            "Empower People with AI-Driven Automation and Expertise",
-            "Transform Teams with Intelligent Automation Solutions",
-            "Because Coffee Breaks are for Humans, Not Algorithms",
-            "Accelerate Businesses with AI-Powered Expertise",
-            "Your AI Assistant: Smarter Than a Spreadsheet, Less Needy Than an Intern",
-            "Equip Professionals with Smart Automation Tools",
-            "Making Robots Work While You Take That Long Lunch",
-            "Enhance Organizations with AI-Driven Intelligence",
-            "Warning: May Cause Excessive Free Time and Productivity",
-            "Optimize Enterprises with Automated Excellence",
-            "Like Having a Super Assistant Who Never Asks for Vacation Days",
-            "Streamline Workflows with AI-Enhanced Precision",
-            "Revolutionize Operations with Intelligent Automation",
-            "Drive Industries with AI-Driven Innovation",
-            "Elevate Companies with Smart Technology Solutions",
-            "Optimize Processes with AI-Powered Efficiency",
-            "Accelerate Projects with Intelligent Automation",
-            "Supercharge Development with AI-Enhanced Tools",
-            "Transform Services with Smart Automation",
-            "Innovate Solutions with AI-Driven Excellence",
-            "Modernize Systems with Intelligent Integration",
-            "Maximize Performance with AI-Powered Precision",
-            "Achieve Success with Smart Automation"
-        ];
+  <section id="stack">
+    <div class="wrap">
+      <h2>Built in the open, on Cloudflare</h2>
+      <p class="intro">Agentic9 is written in TypeScript with a hexagonal architecture, so the model provider is a port rather than a dependency. Claude comes first; open-source models via Workers AI follow. The code is open source on GitHub.</p>
+      <ul class="stack" aria-label="Technology stack">
+        <li>Workers</li><li>Durable Objects</li><li>Workflows</li><li>Queues</li><li>D1</li><li>R2</li><li>Vectorize</li><li>Sandboxes</li><li>AI Gateway</li><li>TypeScript</li>
+      </ul>
+      <div class="actions" style="margin-top:2rem">
+        <a class="btn" href="/docs/">Architecture overview</a>
+        <a class="btn" href="https://github.com/Agentic9/agentic9">github.com/Agentic9/agentic9</a>
+      </div>
+    </div>
+  </section>
 
-        // Start with a random phrase
-        let currentIndex = Math.floor(Math.random() * phrases.length);
-        const dynamicPart = document.getElementById('rotating-text');
-        dynamicPart.textContent = phrases[currentIndex];
+  <section id="access">
+    <div class="wrap">
+      <h2>Early access</h2>
+      <p class="intro">Agentic9 Crew is in an internal pilot. If you would like to take part, or just want to talk about it, get in touch.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://app.agentic9.ai">Open the app</a>
+        <a class="btn" href="mailto:hello@agentic9.ai">hello@agentic9.ai</a>
+      </div>
+    </div>
+  </section>
+</main>
 
-        function updatePhrase() {
-            currentIndex = (currentIndex + 1) % phrases.length;
-            dynamicPart.textContent = phrases[currentIndex];
-        }
-
-        setInterval(updatePhrase, 15000);
-    </script>
+<footer class="site">
+  <div class="wrap">
+    <span>Agentic9 · agentic9.ai</span>
+    <span><a href="/docs/">Docs</a> · <a href="https://github.com/Agentic9/agentic9">GitHub</a> · <a href="mailto:hello@agentic9.ai">Contact</a></span>
+  </div>
+</footer>
 </body>
 </html>

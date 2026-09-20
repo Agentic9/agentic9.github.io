@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture · Agentic9 Crew</title>
+<meta name="description" content="Architecture overview of Agentic9 Crew: domain model, ports, runtimes, control plane and milestones.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b0d10">
+<link rel="canonical" href="https://agentic9.ai/docs/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--bg-2)"/><circle cx="10" cy="11" r="3.2" fill="var(--accent)"/><circle cx="22" cy="11" r="3.2" fill="var(--accent)"/><circle cx="16" cy="22" r="3.2" fill="var(--accent)"/><path d="M10 11h12M10 11l6 11M22 11l-6 11" stroke="var(--accent)" stroke-width="1.6" fill="none"/></svg>
+      Agentic9
+    </a>
+    <nav class="main" aria-label="Main">
+      <a href="/">Home</a>
+      <a href="#domain">Domain</a>
+      <a href="#ports">Ports</a>
+      <a href="#runtimes">Runtimes</a>
+      <a href="#milestones">Milestones</a>
+      <a href="https://github.com/Agentic9/agentic9">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap doc">
+  <div class="hero">
+    <span class="tag">Docs</span>
+    <h1>Architecture overview</h1>
+    <p class="lead">Agentic9 Crew is a TypeScript system on Cloudflare, organised as a hexagonal architecture. The domain sits in the middle, every external concern is a port, and adapters plug in behind them. This page summarises the shape of it.</p>
+    <div class="toc" aria-label="Contents">
+      <ol>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#domain">Domain model</a></li>
+        <li><a href="#ports">Ports</a></li>
+        <li><a href="#runtimes">Agent runtimes</a></li>
+        <li><a href="#control">Control plane</a></li>
+        <li><a href="#milestones">Milestones</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <section id="principles">
+    <h2>Principles</h2>
+    <ul>
+      <li><strong>Hexagonal.</strong> Domain logic depends on interfaces (ports), never on Cloudflare bindings or a model vendor's SDK. Adapters implement the ports.</li>
+      <li><strong>Swappable model provider.</strong> The LLM is behind <code>LlmPort</code>. Claude is the first adapter; open-source models via Workers AI come later without touching the domain.</li>
+      <li><strong>One computer per bot.</strong> Each bot owns a persistent sandbox. Its files, shell history and browser state survive between tasks.</li>
+      <li><strong>Autonomous by default, approved by exception.</strong> Tasks run to completion unless an action is marked sensitive, in which case the task suspends until a human approves.</li>
+      <li><strong>Everything on Cloudflare.</strong> Workers, Durable Objects, Workflows, Queues, D1, R2, Vectorize, Sandboxes and AI Gateway. No separate servers to run.</li>
+    </ul>
+  </section>
+
+  <section id="domain">
+    <h2>Domain model</h2>
+    <p>The core entities are deliberately few. Everything the product does is expressed in terms of these.</p>
+    <table>
+      <thead><tr><th>Entity</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>User</td><td>A person with an account. Owns bots, joins threads, grants approvals.</td></tr>
+        <tr><td>Bot</td><td>A named teammate with a title, description, memory, connectors and a sandbox. Descriptions drive delegation routing.</td></tr>
+        <tr><td>Thread</td><td>A conversation between one or more users and one or more bots. Group threads allow several bots in one place.</td></tr>
+        <tr><td>Message</td><td>A single turn in a thread, from a user or a bot, streamed as it is produced.</td></tr>
+        <tr><td>Task</td><td>A unit of work a bot has taken on. Carries state, a plan, tool calls and results. See the lifecycle below.</td></tr>
+        <tr><td>Routine</td><td>A scheduled or event-driven instruction, such as a 07:00 daily brief or "on every new email".</td></tr>
+        <tr><td>Connector</td><td>An authorised data connection: an OAuth integration or a custom MCP server, scoped to a bot.</td></tr>
+        <tr><td>Memory</td><td>What a bot remembers across threads: notes, embeddings and summaries it can recall later.</td></tr>
+        <tr><td>Approval</td><td>A pending decision on a sensitive action. Resolved with one tap from a push notification.</td></tr>
+        <tr><td>Artifact</td><td>A file or output a task produced, stored in object storage and linked from the thread.</td></tr>
+      </tbody>
+    </table>
+    <h3>Task lifecycle</h3>
+    <ol class="flow" aria-label="Task states">
+      <li>queued</li><li class="sep">&rarr;</li>
+      <li>planning</li><li class="sep">&rarr;</li>
+      <li>running</li><li class="sep">&rarr;</li>
+      <li>awaiting_approval</li><li class="sep">&rarr;</li>
+      <li class="end">done</li><li class="sep">|</li>
+      <li class="end">failed</li>
+    </ol>
+    <p>A task may loop between <code>running</code> and <code>awaiting_approval</code> as many times as it hits sensitive actions. Delegation creates a child task on another bot; the parent waits on its result.</p>
+  </section>
+
+  <section id="ports">
+    <h2>Ports</h2>
+    <p>Each port is a TypeScript interface. The domain calls the interface; an adapter provides the implementation. Swapping an adapter never changes the domain.</p>
+    <table>
+      <thead><tr><th>Port</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>LlmPort</td><td>Chat completion with streaming and tool use. Adapters: Claude (via AI Gateway), later Workers AI.</td></tr>
+        <tr><td>AgentRuntimePort</td><td>Runs a task's agent loop. Adapters: SandboxRuntime, Claude Managed Agents.</td></tr>
+        <tr><td>ConnectorPort</td><td>Discovers and invokes tools from OAuth connectors and MCP servers.</td></tr>
+        <tr><td>MemoryPort</td><td>Stores and recalls bot memory. Vector search over Vectorize, structured records in D1.</td></tr>
+        <tr><td>FilePort</td><td>Reads and writes artefacts and sandbox files. Backed by R2.</td></tr>
+        <tr><td>SchedulerPort</td><td>Registers and fires time-based routines. Backed by Durable Object alarms and Workflows.</td></tr>
+        <tr><td>TriggerPort</td><td>Subscribes to external events (email, Slack, webhooks) and turns them into tasks.</td></tr>
+        <tr><td>NotifyPort</td><td>Push notifications and other outbound messages to users.</td></tr>
+        <tr><td>SecretVaultPort</td><td>Stores connector credentials and tokens, encrypted, scoped per bot.</td></tr>
+        <tr><td>ApprovalPort</td><td>Creates approvals, waits on them and resumes the suspended task.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="runtimes">
+    <h2>Agent runtimes</h2>
+    <p>Two implementations of <code>AgentRuntimePort</code> exist so the product is not tied to one way of executing agents.</p>
+    <div class="grid">
+      <article class="card hi">
+        <h3>SandboxRuntime (default)</h3>
+        <p>Runs the agent loop inside the bot's Cloudflare Sandbox. The runtime drives <code>LlmPort</code> directly, executes tool calls in the sandbox (shell, files, browser) or through <code>ConnectorPort</code>, and snapshots the sandbox between tasks. Works with any LLM adapter.</p>
+      </article>
+      <article class="card">
+        <h3>Claude Managed Agents (optional)</h3>
+        <p>Delegates the agent loop to Anthropic's managed agent service. The control plane still owns threads, tasks, approvals and memory, so switching runtimes is invisible to users.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="control">
+    <h2>Control plane</h2>
+    <p>The control plane is a single Hono application deployed as a Cloudflare Worker, with state held in Durable Objects.</p>
+    <ul>
+      <li><strong>Hono Worker.</strong> HTTP and WebSocket entry point. Authentication, REST API, streaming, webhooks for triggers, and routing to the right Durable Object.</li>
+      <li><strong>BotDO.</strong> One per bot. Owns the bot's configuration, connector scopes, routines (via alarms), the task queue and the handle to its sandbox.</li>
+      <li><strong>ThreadDO.</strong> One per thread. Owns the message log, fan-out to participants, streaming to connected clients and delegation between bots in group threads.</li>
+      <li><strong>SessionDO.</strong> One per connected client session. Holds WebSocket connections, presence and delivery of push notifications when the client is offline.</li>
+    </ul>
+    <p>Long-running work is coordinated by Workflows and Queues so that a task survives Worker restarts. D1 holds relational data, R2 holds artefacts and sandbox snapshots, Vectorize holds memory embeddings, and AI Gateway fronts every model call for caching, logging and rate limits.</p>
+  </section>
+
+  <section id="milestones">
+    <h2>Milestones</h2>
+    <table>
+      <thead><tr><th>Milestone</th><th>Scope</th></tr></thead>
+      <tbody>
+        <tr><td>M1</td><td><strong>Walking skeleton.</strong> A single bot, one thread, chat with streaming responses through the full stack.</td></tr>
+        <tr><td>M2</td><td><strong>Connectors and approvals.</strong> OAuth connectors and MCP servers scoped per bot; sensitive actions pause for one-tap approval.</td></tr>
+        <tr><td>M3</td><td><strong>Multi-agent.</strong> Several named bots, delegation routed on descriptions, group threads.</td></tr>
+        <tr><td>M4</td><td><strong>Routines and snapshots.</strong> Scheduled and event-driven routines; sandbox snapshots so bots keep their state between tasks.</td></tr>
+        <tr><td>M5</td><td><strong>Second LLM provider proof.</strong> An open-source model via Workers AI behind <code>LlmPort</code>, proving the domain is provider-neutral.</td></tr>
+        <tr><td>M6</td><td><strong>Managed-agents runtime and native shells.</strong> Claude Managed Agents as an alternative <code>AgentRuntimePort</code>; native mobile shells around the app.</td></tr>
+      </tbody>
+    </table>
+    <p>Source, issues and progress are on <a href="https://github.com/Agentic9/agentic9">GitHub</a>. Questions to <a href="mailto:hello@agentic9.ai">hello@agentic9.ai</a>.</p>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Agentic9 · agentic9.ai</span>
+    <span><a href="/">Home</a> · <a href="https://github.com/Agentic9/agentic9">GitHub</a> · <a href="mailto:hello@agentic9.ai">Contact</a></span>
+  </div>
+</footer>
+</body>
+</html>

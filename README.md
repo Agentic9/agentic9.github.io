@@ -1,105 +1,29 @@
-# Modern 3D Interactive Website
+# agentic9.ai
 
-A minimalist website featuring an interactive 3D background created with Three.js. The site showcases a modern, clean design with floating geometric shapes and dynamic animations.
+Static marketing and documentation site for **Agentic9 Crew**, served at
+[agentic9.ai](https://agentic9.ai) via GitHub Pages. Plain HTML and CSS,
+no build step, no Jekyll (`.nojekyll` is present).
 
-## 🚀 Features
+## Files
 
-- **Interactive 3D Background**
-  - Floating geometric shapes (icosahedron, tetrahedron, octahedron)
-  - Smooth animations and rotations
-  - Responsive to window resizing
-  - Uses Three.js for 3D rendering
+- `index.html` – landing page
+- `docs/index.html` – architecture overview
+- `styles.css` – shared stylesheet (dark by default, light via `prefers-color-scheme`)
+- `favicon.svg`, `robots.txt`, `CNAME`, `.nojekyll`
 
-- **Modern Design Elements**
-  - Animated gradient text effects
-  - Dark theme with subtle grid patterns
-  - Minimalist UI with focus on content
-  - Blur effects and modern animations
+## Deploy
 
-- **Technical Features**
-  - Built with Jekyll for GitHub Pages
-  - Responsive design using TailwindCSS
-  - Font Awesome integration for icons
-  - Custom commit automation script
+1. Push to the repository's default branch.
+2. In the repository settings, under **Pages**, set the source to *Deploy from a
+   branch*, choose the default branch and the `/ (root)` folder.
+3. Set the custom domain to `agentic9.ai` (the `CNAME` file must stay as is) and
+   enable *Enforce HTTPS*.
 
-## 🛠 Project Structure
+DNS for `agentic9.ai` should point at GitHub Pages (A/AAAA records for the apex,
+or a CNAME for `www`), as described in the GitHub Pages documentation.
 
-```
-.
-├── _layouts/
-│   └── default.html      # Main layout with 3D background and styling
-├── _config.yml          # Jekyll configuration
-├── index.html          # Homepage with animated slogan
-├── Gemfile            # Ruby dependencies
-└── commit.sh         # Automated git commit script
-```
+## Local preview
 
-## 💻 Development
+    python3 -m http.server 8000
 
-### Prerequisites
-- Ruby (for Jekyll)
-- Node.js (for npm packages)
-- Git
-
-### Local Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/radekdymacz/radekdymacz.github.io.git
-   ```
-
-2. Install dependencies:
-   ```bash
-   bundle install
-   ```
-
-3. Run locally:
-   ```bash
-   bundle exec jekyll serve
-   ```
-
-### Making Changes
-
-The site uses several key technologies:
-
-1. **Three.js Setup** (in `_layouts/default.html`):
-   - Scene setup with custom camera position
-   - Geometric shapes with metallic material
-   - Custom lighting with ambient and directional lights
-
-2. **Styling** (in respective files):
-   - Gradient animations for text
-   - Grid background patterns
-   - Modern blur effects for UI elements
-
-3. **Automated Deployment**
-   Use the commit script for quick updates:
-   ```bash
-   ./commit.sh "Your commit message"
-   # or just
-   ./commit.sh  # uses default message
-   ```
-
-## 🎨 Design Choices
-
-- **Color Scheme**
-  - Background: Pure black (#000000)
-  - Gradient: Blue (#60a5fa) → Purple (#8b5cf6) → Pink (#ec4899)
-  - 3D Objects: Indigo with metallic finish
-
-- **Typography**
-  - Inter font family for modern look
-  - Responsive font sizing
-  - Gradient text effects
-
-## 🔧 Maintenance
-
-- Update dependencies regularly:
-  ```bash
-  bundle update
-  ```
-- Check GitHub Pages build status after pushes
-- Test responsiveness across different devices
-
-## 📝 License
-
-MIT License - feel free to use and modify as needed.
+then open <http://localhost:8000>.
