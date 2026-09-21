@@ -1,7 +1,7 @@
-name: Deploy site
+# Deployed from a logged-in machine (agentic9/infra/deploy.sh --site, or `npx wrangler deploy` in this checkout).
+# Manual fallback only; needs CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID as repository secrets when dispatched.
+name: Deploy site (manual fallback)
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 jobs:
   deploy:
